@@ -20,11 +20,11 @@ public class EmployeeWorkedHours {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private int id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
-    @JsonIgnore
+	@JsonIgnore
     private Employees employees;
 	
 	@Column(name = "worked_hours")
@@ -44,11 +44,11 @@ public class EmployeeWorkedHours {
 		this.workedDate = workedDate;
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

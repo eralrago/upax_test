@@ -24,7 +24,7 @@ public class Employees {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private int id;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gender_id")
@@ -63,11 +63,11 @@ public class Employees {
 		this.employeeWorkedHours = employeeWorkedHours;
 	}
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

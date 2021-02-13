@@ -4,15 +4,15 @@ package com.upax.eralrago.upax_test.controlador;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.function.Predicate;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.upax.eralrago.upax_test.modelo.Employees;
@@ -41,22 +41,25 @@ public class EmployeesController {
 	}
 	
 	// Created Employe
-	@PostMapping("/create_employe/{gender_id}/{job_id}/{name}/{last_name}/{birthdate}")
-	public Employees createEmploye(@PathVariable(value = "gender_id") Long genderId, 
-			                       @PathVariable(value = "job_id") Long jobId, 
-			                       @PathVariable(value = "name") String name, 
-			                       @PathVariable(value = "last_name") String lastName, 
-			                       @PathVariable(value = "birthdate") Date birthdate) {
-		
+	@PostMapping("/create_employe")
+	public JSONObject createEmploye(@RequestParam(value = "gender_id") int genderId, 
+			@RequestParam(value = "job_id") int jobId, 
+			@RequestParam(value = "name") String name, 
+			@RequestParam(value = "last_name") String lastName, 
+			@RequestParam(value = "birthdate") Date birthdate) {
+
+		JSONObject jo = new JSONObject();
+		Employees newEmployes = new Employees();
 		String pattern = "yyyy-MM-dd";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-
 		String date = simpleDateFormat.format(birthdate);
 		String strDateEmploye = date.substring(0, 4);
 		int yearBirthdateEmploye = Integer.parseInt(strDateEmploye);
 		
 		Predicate<Employees> p1 = s -> s.getName().equals(name);
 		Predicate<Employees> p2 = s -> s.getLastName().equals(lastName);
+		Predicate<Genders> p3 = s -> s.getId() == genderId;
+		Predicate<Jobs> p4 = s -> s.getId() == jobId;
 		
 		List<Employees> allEmployees = this.employeesRepositorio.findAll();
 		List<Genders> allGenders = this.gendersRepositorio.findAll();
@@ -66,19 +69,48 @@ public class EmployeesController {
 		
 		boolean b1 = allEmployees.stream().anyMatch(p1);
 		boolean b2 = allEmployees.stream().anyMatch(p2);
-		if (b1 && b2) {
-			System.out.println("Empleado Existe");
-		} else {
+		boolean b3 = allGenders.stream().anyMatch(p3);
+		boolean b4 = allJobs.stream().anyMatch(p4);
+		
+		if (!b1 && !b2) {
 			if ((ahora.getYear() - yearBirthdateEmploye) >= 18) {
-				System.out.println("Empleado NO Existe");
-				System.out.println("Empleado es mayor de edad");
+				if (b3) {
+					if (b4) {						
+						for (Genders genders : allGenders) {
+							if (genders.getId() == genderId) {
+								newEmployes.setGenders(genders);
+							}
+						}
+						for (Jobs jobs : allJobs) {
+							if (jobs.getId() == jobId) {
+								newEmployes.setJobs(jobs);
+							}
+						}
+						newEmployes.setName(name);
+						newEmployes.setLastName(lastName);
+						newEmployes.setBirthdate(birthdate);
+						this.employeesRepositorio.save(newEmployes);
+						int lastidE = newEmployes.getId();
+						jo.put("id", lastidE);
+						jo.put("success", true);
+					} else {
+						jo.put("id", "null");
+						jo.put("success", false);
+					}
+				} else {
+					jo.put("id", "null");
+					jo.put("success", false);
+				}
 			} else {
-				System.out.println("Empleado NO Existe");
-				System.out.println("Empleado no es mayor de edad");
+				jo.put("id", "null");
+				jo.put("success", false);
 			}
+		} else {
+			jo.put("id", "null");
+			jo.put("success", false);
 		}
-		return null;
+		return jo;
 	}
 	
-
+	
 }
