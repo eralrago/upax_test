@@ -59,7 +59,4 @@ public class Genders {
 	public void setEmployee(List<Employees> employee) {
 		this.employee = employee;
 	}
-
-	
-	
 }

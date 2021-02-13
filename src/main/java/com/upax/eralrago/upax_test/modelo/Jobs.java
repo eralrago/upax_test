@@ -70,5 +70,5 @@ public class Jobs {
 
 	public void setEmployee(List<Employees> employee) {
 		this.employee = employee;
-	}	
+	}
 }
