@@ -10,8 +10,8 @@ import com.upax.eralrago.upax_test.modelo.Employees;
 @Repository
 public interface EmployeesRepositorio extends JpaRepository<Employees, Integer> {
 	
-	Page<Employees> findByGenderId(Integer genderId, Pageable pageable);
+	/*Page<Employees> findByGenderId(Integer genderId, Pageable pageable);
 	
-    Page<Employees> findByJobId(Integer jobId, Pageable pageable);
+    Page<Employees> findByJobId(Integer jobId, Pageable pageable);*/
     
 }

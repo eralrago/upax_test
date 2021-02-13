@@ -45,7 +45,7 @@ public class Employees {
 	@Column(name = "birthdate")
 	private Date birthdate;
 	
-	@OneToMany(mappedBy = "employeeWorkedHours", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "employees", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<EmployeeWorkedHours> employeeWorkedHours = new ArrayList<>();
 
 	public Employees() {

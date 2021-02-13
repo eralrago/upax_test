@@ -11,6 +11,6 @@ import com.upax.eralrago.upax_test.modelo.Employees;
 @Repository
 public interface EmployeeWorkedHoursRepositorio extends JpaRepository<EmployeeWorkedHours, Integer> {
 	
-	Page<EmployeeWorkedHours> findByEmployeeId(Integer employeeId, Pageable pageable);
+	// Page<EmployeeWorkedHours> findByEmployeeId(Integer employeeId, Pageable pageable);
 	
 }

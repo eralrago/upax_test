@@ -23,7 +23,7 @@ public class Genders {
 	@Column(name = "name")
 	private String name;
 	
-	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "genders", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Employees> employee = new ArrayList<>();
 	
 	public Genders () {

@@ -26,7 +26,7 @@ public class Jobs {
 	@Column(name = "salary")
 	private Float salary;
 	
-	@OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "jobs", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Employees> employee = new ArrayList<>();
 	
 	public Jobs () {
