@@ -40,6 +40,11 @@ public class EmployeesController {
 		return this.employeesRepositorio.findAll();
 	}
 	
+	/*@GetMapping("/employees")
+	public List<Employees> getEmployeesByJobId (@RequestParam(value = "job_id") int jobId) {
+		return this.employeesRepositorio.findAll();
+	}*/
+	
 	// Created Employe
 	@PostMapping("/create_employe")
 	public JSONObject createEmploye(@RequestParam(value = "gender_id") int genderId, 
@@ -49,7 +54,7 @@ public class EmployeesController {
 			@RequestParam(value = "birthdate") Date birthdate) {
 
 		JSONObject jo = new JSONObject();
-		Employees newEmployes = new Employees();
+		
 		String pattern = "yyyy-MM-dd";
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
 		String date = simpleDateFormat.format(birthdate);
@@ -75,7 +80,8 @@ public class EmployeesController {
 		if (!b1 && !b2) {
 			if ((ahora.getYear() - yearBirthdateEmploye) >= 18) {
 				if (b3) {
-					if (b4) {						
+					if (b4) {
+						Employees newEmployes = new Employees();
 						for (Genders genders : allGenders) {
 							if (genders.getId() == genderId) {
 								newEmployes.setGenders(genders);
